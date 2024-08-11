@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="19574" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+    <entity name="Book" representedClassName="Book" syncable="YES" codeGenerationType="class">
+        <attribute name="dateAdded" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="pagesRead" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="readingStatusInt" optional="YES" attributeType="Integer 32" minValueString="0" maxValueString="3" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="noteFolderItems" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookNoteFolderItem" inverseName="book" inverseEntity="BookNoteFolderItem"/>
+        <relationship name="persistentBookInformation" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PersistentBookInformation" inverseName="book" inverseEntity="PersistentBookInformation"/>
+        <relationship name="themes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTheme" inverseName="book" inverseEntity="BookTheme"/>
+    </entity>
+    <entity name="BookNote" representedClassName="BookNote" isAbstract="YES" parentEntity="BookNoteFolderItem" syncable="YES" codeGenerationType="class"/>
+    <entity name="BookNoteFolder" representedClassName="BookNoteFolder" parentEntity="BookNoteFolderItem" syncable="YES" codeGenerationType="class">
+        <relationship name="items" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BookNoteFolderItem" inverseName="itemParent" inverseEntity="BookNoteFolderItem"/>
+    </entity>
+    <entity name="BookNoteFolderItem" representedClassName="BookNoteFolderItem" isAbstract="YES" syncable="YES" codeGenerationType="class">
+        <attribute name="creationDate" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="itemTitle" optional="YES" attributeType="String"/>
+        <attribute name="typeIdentifier" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="noteFolderItems" inverseEntity="Book"/>
+        <relationship name="itemParent" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookNoteFolder" inverseName="items" inverseEntity="BookNoteFolder"/>
+        <relationship name="themes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookTheme" inverseName="notes" inverseEntity="BookTheme"/>
+    </entity>
+    <entity name="BookNoteQuickThought" representedClassName="BookNoteQuickThought" parentEntity="BookNote" syncable="YES" codeGenerationType="class">
+        <attribute name="quickThoughtTypeInt" optional="YES" attributeType="Integer 32" defaultValueString="2" usesScalarValueType="YES"/>
+        <attribute name="scannedImageData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="text" optional="YES" attributeType="String"/>
+        <relationship name="arrayOfThoughts" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="BookNoteQuickThoughtArrayItem" inverseName="quickThought" inverseEntity="BookNoteQuickThoughtArrayItem"/>
+    </entity>
+    <entity name="BookNoteQuickThoughtArrayItem" representedClassName="BookNoteQuickThoughtArrayItem" syncable="YES" codeGenerationType="class">
+        <attribute name="quickThoughtId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="scannedPhotoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="typedText" optional="YES" attributeType="String"/>
+        <relationship name="quickThought" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="BookNoteQuickThought" inverseName="arrayOfThoughts" inverseEntity="BookNoteQuickThought"/>
+    </entity>
+    <entity name="BookTheme" representedClassName="BookTheme" syncable="YES" codeGenerationType="class">
+        <attribute name="themeId" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="themes" inverseEntity="Book"/>
+        <relationship name="notes" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="BookNoteFolderItem" inverseName="themes" inverseEntity="BookNoteFolderItem"/>
+    </entity>
+    <entity name="PersistentBookInformation" representedClassName="PersistentBookInformation" syncable="YES" codeGenerationType="class">
+        <attribute name="authors" optional="YES" attributeType="String" customClassName="Array&lt;String&gt;"/>
+        <attribute name="averageRating" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="bookDescription" optional="YES" attributeType="String"/>
+        <attribute name="id" optional="YES" attributeType="String"/>
+        <attribute name="imageLinks" optional="YES" attributeType="String"/>
+        <attribute name="isbn10" optional="YES" attributeType="String"/>
+        <attribute name="isbn13" optional="YES" attributeType="String"/>
+        <attribute name="maturityRating" optional="YES" attributeType="String"/>
+        <attribute name="pageCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="printType" optional="YES" attributeType="String"/>
+        <attribute name="publishedDate" optional="YES" attributeType="String"/>
+        <attribute name="publisher" optional="YES" attributeType="String"/>
+        <attribute name="ratingsCount" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="subtitle" optional="YES" attributeType="String"/>
+        <attribute name="title" optional="YES" attributeType="String"/>
+        <relationship name="book" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Book" inverseName="persistentBookInformation" inverseEntity="Book"/>
+    </entity>
+    <elements>
+        <element name="Book" positionX="-280.7164306640625" positionY="-165.668212890625" width="128" height="134"/>
+        <element name="BookNote" positionX="120.3727416992188" positionY="-101.1678466796875" width="128" height="29"/>
+        <element name="BookNoteFolder" positionX="-28.62896728515625" positionY="276.0534362792969" width="128" height="44"/>
+        <element name="BookNoteFolderItem" positionX="469.702392578125" positionY="-24.3321533203125" width="128" height="119"/>
+        <element name="BookNoteQuickThought" positionX="-54" positionY="-18" width="128" height="89"/>
+        <element name="BookNoteQuickThoughtArrayItem" positionX="-72" positionY="-36" width="128" height="89"/>
+        <element name="BookTheme" positionX="278.69580078125" positionY="-96.07330322265625" width="128" height="89"/>
+        <element name="PersistentBookInformation" positionX="-63" positionY="-27" width="128" height="269"/>
+    </elements>
+</model>
